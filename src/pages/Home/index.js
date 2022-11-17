@@ -1,9 +1,17 @@
+import { useEffect, useState } from 'react';
+
+import { onSnapshot } from 'firebase/firestore';
+
 import { NavBar } from '../../components/NavBar';
 import { Post } from '../../components/Post';
 
 import { Main, Container } from './styles';
 
 export const Home = () => {
+  const [posts, setPost] = useState([]);
+
+  useEffect(() => {}, []);
+
   return (
     <div>
       <NavBar />
