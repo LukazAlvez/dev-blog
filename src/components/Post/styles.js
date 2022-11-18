@@ -4,31 +4,53 @@ export const Container = styled.article`
   padding: 20px;
   width: 100%;
   height: 100%;
-  min-height: 150px;
+  max-height: 200px;
   position: relative;
   border-radius: 3px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
   margin-top: 20px;
 
   h2 {
-    font-size: 25px;
+    font-size: 30px;
     padding: 10px 0;
   }
 
+  span {
+    display: flex;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    width: 100%;
+    align-items: center;
+    b {
+      padding-right: 5px;
+    }
+  }
+`;
+
+export const Text = styled.div`
+  height: 60px;
+  overflow: hidden;
+  margin-bottom: 15px;
+
   p {
-    color: rgba(255, 255, 255, 0.8);
     font-size: 20px;
     text-align: justify;
-    padding-bottom: 10px;
   }
-  span {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 15px;
+`;
+
+export const Date = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  time {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
   }
 `;
 
 export const Hover = styled.a`
   cursor: pointer;
+  width: 100%;
 
   & span:nth-child(1) {
     position: absolute;

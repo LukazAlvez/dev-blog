@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { onSnapshot } from 'firebase/firestore';
+import { db } from '../../services/firebase';
+import { onSnapshot, collection, query, orderBy } from 'firebase/firestore';
 
 import { NavBar } from '../../components/NavBar';
 import { Post } from '../../components/Post';
@@ -8,27 +9,50 @@ import { Post } from '../../components/Post';
 import { Main, Container } from './styles';
 
 export const Home = () => {
-  const [posts, setPost] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const linkRef = collection(db, 'posts');
+    const queryRef = query(linkRef, orderBy('date', 'desc'));
+
+    onSnapshot(queryRef, snapshot => {
+      let postList = [];
+
+      snapshot.forEach(doc => {
+        let date = new Date(doc.data().date.seconds * 1000);
+        postList.push({
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          tag: doc.data().tag,
+          date:
+            date.getHours() +
+            ':' +
+            date.getMinutes() +
+            ', ' +
+            date.toDateString(),
+        });
+        setPosts(postList);
+      });
+      console.log(postList);
+    });
+  }, []);
 
   return (
     <div>
       <NavBar />
       <Main>
         <Container>
-          <Post
-            title='Meu Post'
-            text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas porro maiores quaerat! Inventore labore doloribus, repellat est quo vero. Provident, aliquid recusandae aperiam inventore praesentium optio earum nemo saepe iure?'
-          />
-          <Post
-            title='Meu Post'
-            text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas porro maiores quaerat! Inventore labore doloribus, repellat est quo vero. Provident, aliquid recusandae aperiam inventore praesentium optio earum nemo saepe iure?'
-          />
-          <Post
-            title='Meu Post'
-            text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas porro maiores quaerat! Inventore labore doloribus, repellat est quo vero. Provident, aliquid recusandae aperiam inventore praesentium optio earum nemo saepe iure?'
-          />
+          {posts.map(post => (
+            <Post
+              id={post.id}
+              key={post.id}
+              title={post.title}
+              text={post.content}
+              tag={post.tag}
+              date={post.date}
+            />
+          ))}
         </Container>
       </Main>
     </div>

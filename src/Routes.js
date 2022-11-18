@@ -15,7 +15,7 @@ export const Routes = createBrowserRouter([
     element: <Error />,
   },
   {
-    path: '/post',
+    path: '/post/:id',
     element: <Post />,
   },
   {
