@@ -11,3 +11,8 @@ export const Container = styled.div`
   max-width: 90%;
   padding: 5px;
 `;
+
+export const Alert = styled.p`
+  padding: 10px;
+  text-align: center;
+`;

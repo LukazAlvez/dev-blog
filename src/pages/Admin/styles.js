@@ -5,6 +5,11 @@ export const Main = styled.main`
   flex-direction: column;
   align-items: center;
   padding: 10px;
+
+  h1 {
+    padding: 30px 0;
+    font-size: 25px;
+  }
 `;
 
 export const Form = styled.form`
@@ -27,4 +32,10 @@ export const Form = styled.form`
   select option {
     background-color: #222222;
   }
+`;
+
+export const Container = styled.div`
+  width: 700px;
+  max-width: 90%;
+  padding: 10px;
 `;

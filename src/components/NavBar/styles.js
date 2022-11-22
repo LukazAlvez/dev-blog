@@ -22,6 +22,11 @@ export const Nav = styled.div`
     transition: ease-in-out 0.2s;
   }
   li:hover {
-    transform: scale(1.06);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+  p {
+    font-size: 30px;
+    font-weight: 700;
   }
 `;

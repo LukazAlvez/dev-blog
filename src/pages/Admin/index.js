@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
 
@@ -17,13 +17,53 @@ import { NavBar } from '../../components/NavBar';
 import { Input } from '../../components/Input';
 import { TextArea } from '../../components/TextArea';
 import { Button } from '../../components/Button';
+import { Post } from '../../components/Post';
 
-import { Main, Form } from './styles';
+import { Main, Form, Container } from './styles';
 
 export const Admin = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('Programação');
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const postRef = collection(db, 'posts');
+    const queryRef = query(postRef, orderBy('date', 'desc'));
+
+    onSnapshot(queryRef, snapshot => {
+      let postList = [];
+
+      snapshot.forEach(doc => {
+        let date = new Date(doc.data().date.seconds * 1000);
+        postList.push({
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          tag: doc.data().tag,
+          date:
+            date.getHours() +
+            ':' +
+            date.getMinutes() +
+            ', ' +
+            date.toDateString(),
+        });
+        setPosts(postList);
+      });
+    });
+  }, []);
+
+  const handleDelete = id => {
+    const postRef = doc(db, 'posts', id);
+    deleteDoc(postRef)
+      .then(() => {
+        toast.success('Post deletado com sucesso!');
+      })
+      .catch(error => {
+        toast.error('Erro ao deletar o post!');
+      });
+  };
 
   const handlePost = e => {
     e.preventDefault();
@@ -52,7 +92,7 @@ export const Admin = () => {
   return (
     <Main>
       <NavBar />
-      <h2>Adicionar postagem</h2>
+      <h1>Adicionar postagem</h1>
       <Form onSubmit={handlePost}>
         <label>Titulo da postagem:</label>
         <Input
@@ -81,6 +121,24 @@ export const Admin = () => {
         </select>
         <Button type='submit'>Postar</Button>
       </Form>
+      <Container>
+        {posts.length > 0 ? (
+          posts.map(post => (
+            <Post
+              id={post.id}
+              key={post.id}
+              title={post.title}
+              text={post.content}
+              tag={post.tag}
+              date={post.date}
+            >
+              <Button onClick={() => handleDelete(post.id)}>delete</Button>
+            </Post>
+          ))
+        ) : (
+          <p>Não há postagens!</p>
+        )}
+      </Container>
     </Main>
   );
 };

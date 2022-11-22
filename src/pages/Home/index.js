@@ -6,7 +6,7 @@ import { onSnapshot, collection, query, orderBy } from 'firebase/firestore';
 import { NavBar } from '../../components/NavBar';
 import { Post } from '../../components/Post';
 
-import { Main, Container } from './styles';
+import { Main, Container, Alert } from './styles';
 
 export const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -34,7 +34,6 @@ export const Home = () => {
         });
         setPosts(postList);
       });
-      console.log(postList);
     });
   }, []);
 
@@ -43,16 +42,20 @@ export const Home = () => {
       <NavBar />
       <Main>
         <Container>
-          {posts.map(post => (
-            <Post
-              id={post.id}
-              key={post.id}
-              title={post.title}
-              text={post.content}
-              tag={post.tag}
-              date={post.date}
-            />
-          ))}
+          {posts.length > 0 ? (
+            posts.map(post => (
+              <Post
+                id={post.id}
+                key={post.id}
+                title={post.title}
+                text={post.content}
+                tag={post.tag}
+                date={post.date}
+              />
+            ))
+          ) : (
+            <Alert>Não há postagens!</Alert>
+          )}
         </Container>
       </Main>
     </div>

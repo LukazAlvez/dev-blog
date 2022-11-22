@@ -5,7 +5,7 @@ export const MyTextArea = styled.textarea`
   margin-top: 10px;
   background-color: #fff;
   color: #222222;
-  font-size: 20px;
+  font-size: 17px;
   outline: none;
   border: none;
   border-radius: 3px;

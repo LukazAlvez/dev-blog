@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  button {
+    width: 100%;
+  }
+`;
+
 export const Container = styled.article`
   padding: 20px;
   width: 100%;
@@ -33,8 +41,7 @@ export const Text = styled.div`
   margin-bottom: 15px;
 
   p {
-    font-size: 20px;
-    text-align: justify;
+    font-size: 17px;
   }
 `;
 
