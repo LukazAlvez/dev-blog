@@ -12,10 +12,19 @@ export const Article = styled.article`
   width: 700px;
   max-width: 90%;
 
+  div {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+  }
+
   p {
     color: rgba(255, 255, 255, 0.8);
     font-size: 17px;
-    padding-bottom: 10px;
+    padding: 20px 0;
   }
 
   h1 {

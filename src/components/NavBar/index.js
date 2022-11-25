@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Nav } from './styles';
 
-export const NavBar = () => {
+export const NavBar = ({ children }) => {
   return (
     <Nav>
       <Link to='/'>
@@ -15,6 +15,7 @@ export const NavBar = () => {
         <li>
           <Link to='/admin'>Admin</Link>
         </li>
+        {children}
       </ul>
     </Nav>
   );

@@ -29,7 +29,9 @@ export const Post = () => {
       <NavBar />
       <Main>
         <Article>
-          <h1>{post.title}</h1>
+          <div style={{ backgroundImage: `url(${post.img})` }}>
+            <h1>{post.title}</h1>
+          </div>
           <p>{post.content}</p>
         </Article>
       </Main>

@@ -21,6 +21,7 @@ export const Container = styled.article`
   h2 {
     font-size: 30px;
     padding: 10px 0;
+    border-bottom: 2px solid #fff;
   }
 
   span {
@@ -38,7 +39,7 @@ export const Container = styled.article`
 export const Text = styled.div`
   height: 60px;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin: 10px 0;
 
   p {
     font-size: 17px;

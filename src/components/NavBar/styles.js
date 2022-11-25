@@ -29,4 +29,9 @@ export const Nav = styled.div`
     font-size: 30px;
     font-weight: 700;
   }
+  button {
+    background: none;
+    border: none;
+    color: #fff;
+  }
 `;

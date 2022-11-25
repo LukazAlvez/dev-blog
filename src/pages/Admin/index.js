@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
 
-import { db } from '../../services/firebase';
+import { HiLogout } from 'react-icons/hi';
+
+import { auth, db } from '../../services/firebase';
 import {
   addDoc,
   collection,
@@ -20,9 +22,11 @@ import { Button } from '../../components/Button';
 import { Post } from '../../components/Post';
 
 import { Main, Form, Container } from './styles';
+import { signOut } from 'firebase/auth';
 
 export const Admin = () => {
   const [title, setTitle] = useState('');
+  const [imgLink, setImgLink] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('Programação');
 
@@ -65,6 +69,10 @@ export const Admin = () => {
       });
   };
 
+  const handleLogout = async () => {
+    await signOut(auth);
+  };
+
   const handlePost = e => {
     e.preventDefault();
 
@@ -75,6 +83,7 @@ export const Admin = () => {
 
     addDoc(collection(db, 'posts'), {
       title: title,
+      img: imgLink,
       content: content,
       tag: tag,
       date: new Date(),
@@ -82,6 +91,7 @@ export const Admin = () => {
       .then(() => {
         setContent('');
         setTitle('');
+        setImgLink('');
         toast.success('Postagem adicionada com sucesso!');
       })
       .catch(error => {
@@ -91,7 +101,13 @@ export const Admin = () => {
 
   return (
     <Main>
-      <NavBar />
+      <NavBar>
+        <li>
+          <button onClick={handleLogout}>
+            <HiLogout size={17} />
+          </button>
+        </li>
+      </NavBar>
       <h1>Adicionar postagem</h1>
       <Form onSubmit={handlePost}>
         <label>Titulo da postagem:</label>
@@ -99,6 +115,13 @@ export const Admin = () => {
           value={title}
           onChange={e => {
             setTitle(e.target.value);
+          }}
+        />
+        <label>Link imagem do post:</label>
+        <Input
+          value={imgLink}
+          onChange={e => {
+            setImgLink(e.target.value);
           }}
         />
         <label>Conteúdo da postagem:</label>
