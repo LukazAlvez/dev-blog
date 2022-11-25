@@ -18,6 +18,8 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: 10px;
+  background-color: #fff;
+  color: #222222;
 
   select {
     margin-top: 10px;

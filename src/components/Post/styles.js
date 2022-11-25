@@ -12,17 +12,10 @@ export const Container = styled.article`
   padding: 20px;
   width: 100%;
   height: 100%;
-  max-height: 200px;
   position: relative;
   border-radius: 3px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
   margin-top: 20px;
-
-  h2 {
-    font-size: 30px;
-    padding: 10px 0;
-    border-bottom: 2px solid #fff;
-  }
 
   span {
     display: flex;
@@ -37,13 +30,9 @@ export const Container = styled.article`
 `;
 
 export const Text = styled.div`
-  height: 60px;
+  height: 150px;
   overflow: hidden;
   margin: 10px 0;
-
-  p {
-    font-size: 17px;
-  }
 `;
 
 export const Date = styled.div`

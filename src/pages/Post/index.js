@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
 import { getDoc, doc } from 'firebase/firestore';
 
+import html from 'react-inner-html';
+
+import 'react-quill/dist/quill.snow.css';
+
 import { NavBar } from '../../components/NavBar';
 
 import { Main, Article } from './styles';
@@ -22,7 +26,7 @@ export const Post = () => {
       .catch(error => {
         console.log(error);
       });
-  });
+  }, []);
 
   return (
     <div>
@@ -32,7 +36,7 @@ export const Post = () => {
           <div style={{ backgroundImage: `url(${post.img})` }}>
             <h1>{post.title}</h1>
           </div>
-          <p>{post.content}</p>
+          <div {...html(post.body)} />
         </Article>
       </Main>
     </div>

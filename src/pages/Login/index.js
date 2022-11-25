@@ -39,7 +39,7 @@ export const Login = () => {
   return (
     <Main>
       <form onSubmit={handleLogin}>
-        <h1>login</h1>
+        <h1>Login</h1>
         <Input
           placeholder='Email'
           type='email'

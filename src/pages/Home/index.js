@@ -23,7 +23,7 @@ export const Home = () => {
         postList.push({
           id: doc.id,
           title: doc.data().title,
-          content: doc.data().content,
+          body: doc.data().body,
           tag: doc.data().tag,
           date:
             date.getHours() +
@@ -35,7 +35,7 @@ export const Home = () => {
         setPosts(postList);
       });
     });
-  }, []);
+  }, [posts]);
 
   return (
     <div>
@@ -48,7 +48,7 @@ export const Home = () => {
                 id={post.id}
                 key={post.id}
                 title={post.title}
-                text={post.content}
+                body={post.body}
                 tag={post.tag}
                 date={post.date}
               />

@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 import { toast } from 'react-toastify';
 
-import { HiLogout } from 'react-icons/hi';
+import { HiLogout, HiPlus } from 'react-icons/hi';
 
 import { auth, db } from '../../services/firebase';
 import {
@@ -17,7 +20,6 @@ import {
 
 import { NavBar } from '../../components/NavBar';
 import { Input } from '../../components/Input';
-import { TextArea } from '../../components/TextArea';
 import { Button } from '../../components/Button';
 import { Post } from '../../components/Post';
 
@@ -26,9 +28,18 @@ import { signOut } from 'firebase/auth';
 
 export const Admin = () => {
   const [title, setTitle] = useState('');
-  const [imgLink, setImgLink] = useState('');
-  const [content, setContent] = useState('');
+  const [body, setBody] = useState('');
   const [tag, setTag] = useState('Programação');
+  const [hidden, setHidden] = useState(true);
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      [{ color: [] }],
+      ['image', 'video', 'link'],
+    ],
+  };
 
   const [posts, setPosts] = useState([]);
 
@@ -44,7 +55,7 @@ export const Admin = () => {
         postList.push({
           id: doc.id,
           title: doc.data().title,
-          content: doc.data().content,
+          body: doc.data().body,
           tag: doc.data().tag,
           date:
             date.getHours() +
@@ -76,22 +87,21 @@ export const Admin = () => {
   const handlePost = e => {
     e.preventDefault();
 
-    if (title === '' || content === '') {
+    if (title === '' || body === '') {
       toast.error('Error, preencha todos os campos!');
       return;
     }
 
     addDoc(collection(db, 'posts'), {
       title: title,
-      img: imgLink,
-      content: content,
+      body: body,
       tag: tag,
       date: new Date(),
     })
       .then(() => {
-        setContent('');
+        setHidden(true);
+        setBody('');
         setTitle('');
-        setImgLink('');
         toast.success('Postagem adicionada com sucesso!');
       })
       .catch(error => {
@@ -109,41 +119,50 @@ export const Admin = () => {
         </li>
       </NavBar>
       <h1>Adicionar postagem</h1>
-      <Form onSubmit={handlePost}>
-        <label>Titulo da postagem:</label>
-        <Input
-          value={title}
-          onChange={e => {
-            setTitle(e.target.value);
+      {hidden === true && (
+        <Button
+          style={{
+            background: 'none',
+            borderRadius: '50%',
+            border: '2px solid #fff',
           }}
-        />
-        <label>Link imagem do post:</label>
-        <Input
-          value={imgLink}
-          onChange={e => {
-            setImgLink(e.target.value);
-          }}
-        />
-        <label>Conteúdo da postagem:</label>
-        <TextArea
-          value={content}
-          onChange={e => {
-            setContent(e.target.value);
-          }}
-        />
-        <select
-          name='tag'
-          value={tag}
-          onChange={e => {
-            setTag(e.target.value);
-          }}
+          onClick={() => setHidden(false)}
         >
-          <option value='Programação'>Progrmação</option>
-          <option value='Jogos'>Jogos</option>
-          <option value='Filmes'>Filmes</option>
-        </select>
-        <Button type='submit'>Postar</Button>
-      </Form>
+          <HiPlus size={35} color={'#fff'} />
+        </Button>
+      )}
+
+      {hidden === false && (
+        <Form onSubmit={handlePost}>
+          <label>Titulo da postagem:</label>
+          <Input
+            style={{ border: '1px solid #cccccc' }}
+            value={title}
+            onChange={e => {
+              setTitle(e.target.value);
+            }}
+          />
+          <ReactQuill
+            modules={modules}
+            theme='snow'
+            value={body}
+            onChange={setBody}
+          />
+          <select
+            name='tag'
+            value={tag}
+            onChange={e => {
+              setTag(e.target.value);
+            }}
+          >
+            <option value='Programação'>Progrmação</option>
+            <option value='Jogos'>Jogos</option>
+            <option value='Filmes'>Filmes</option>
+          </select>
+          <Button type='submit'>Postar</Button>
+        </Form>
+      )}
+
       <Container>
         {posts.length > 0 ? (
           posts.map(post => (
@@ -151,7 +170,7 @@ export const Admin = () => {
               id={post.id}
               key={post.id}
               title={post.title}
-              text={post.content}
+              body={post.body}
               tag={post.tag}
               date={post.date}
             >

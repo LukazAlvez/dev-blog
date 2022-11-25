@@ -1,3 +1,5 @@
+import html from 'react-inner-html';
+
 import { Container, Hover, Date, Text, Main } from './styles';
 
 export const Post = props => {
@@ -12,11 +14,9 @@ export const Post = props => {
           <Date>
             <time>{props.date}</time>
           </Date>
-          <h2>{props.title}</h2>
-          <Text>
-            <p>{props.text}</p>
-          </Text>
-
+          <h2 style={{ fontSize: '32px' }}>{props.title}</h2>
+          <Text {...html(props.body)} />
+          {console.log(props)}
           <span>
             <b>Tag: </b>
             {props.tag}
